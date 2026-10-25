@@ -1,0 +1,1816 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zhen Wang</title>
+<meta name="description" content="Zhen Wang — robotics & AI founder. Building C Robotics: human-in-the-loop compliant takeover and spatial teleop for embodied AI, plus $250K in shipped software.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f1ea;
+    --fg: #1b1a17;
+    --muted: #6f6a60;
+    --line: #d6d0c3;
+    --soft: #ebe6db;
+    --accent: #b4441f;
+    --serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+    --sans: "Inter", -apple-system, "Helvetica Neue", "PingFang SC", sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #151412;
+      --fg: #ece7dc;
+      --muted: #9a9385;
+      --line: #34312b;
+      --soft: #1e1c19;
+      --accent: #e07a4f;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #151412;
+    --fg: #ece7dc;
+    --muted: #9a9385;
+    --line: #34312b;
+    --soft: #1e1c19;
+    --accent: #e07a4f;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 400 16px/1.6 var(--sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration-color: var(--line); text-underline-offset: 3px; }
+  a:hover { text-decoration-color: var(--accent); }
+  img, video { display: block; max-width: 100%; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px); }
+  .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+  /* nav */
+  nav {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 20;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 52px;
+    gap: 16px;
+  }
+  nav .mark {
+    font-family: var(--serif);
+    font-size: 22px;
+    text-decoration: none;
+  }
+  nav ul {
+    display: flex;
+    align-items: center;
+    gap: clamp(12px, 2.4vw, 28px);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font: 500 12px/1 var(--mono);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  nav ul a, nav ul button {
+    all: unset;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--muted);
+  }
+  nav ul a:hover, nav ul button:hover { color: var(--fg); }
+  nav ul button:focus-visible, nav ul a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  @media (max-width: 620px) { nav ul li.opt { display: none; } }
+
+  /* hero */
+  .hero {
+    padding-block: clamp(56px, 11vw, 132px) clamp(40px, 7vw, 80px);
+    border-bottom: 1px solid var(--line);
+  }
+  .eyebrow {
+    font: 500 12px/1 var(--mono);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  h1 {
+    font: 400 clamp(56px, 11vw, 148px)/.92 var(--serif);
+    letter-spacing: -.02em;
+    margin: 18px 0 0;
+  }
+  .lede {
+    font: 400 clamp(22px, 2.8vw, 32px)/1.3 var(--serif);
+    max-width: 24em;
+    margin: 28px 0 0;
+  }
+  .lede em { color: var(--accent); font-style: italic; }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: clamp(40px, 6vw, 72px);
+    border-top: 1px solid var(--fg);
+  }
+  .stat { padding: 16px 16px 0 0; }
+  .stat + .stat { padding-left: 16px; border-left: 1px solid var(--line); }
+  .stat b {
+    display: block;
+    font: 400 clamp(36px, 5.4vw, 64px)/1 var(--serif);
+  }
+  .stat span {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--muted);
+    max-width: 20em;
+  }
+  @media (max-width: 640px) {
+    .stats { grid-template-columns: 1fr; }
+    .stat + .stat { border-left: 0; border-top: 1px solid var(--line); padding-left: 0; margin-top: 16px; }
+  }
+
+  /* sections */
+  section.block {
+    padding-block: clamp(56px, 8vw, 104px);
+    border-bottom: 1px solid var(--line);
+  }
+  .head {
+    display: grid;
+    grid-template-columns: 180px minmax(0, 1fr);
+    gap: 24px;
+    align-items: baseline;
+    margin-bottom: clamp(28px, 4vw, 48px);
+  }
+  .head .num {
+    font: 500 12px/1 var(--mono);
+    letter-spacing: .08em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  h2 {
+    font: 400 clamp(36px, 5vw, 60px)/1 var(--serif);
+    margin: 0;
+    letter-spacing: -.01em;
+  }
+  h2 small {
+    display: block;
+    margin-top: 12px;
+    font: 400 16px/1.5 var(--sans);
+    color: var(--muted);
+    max-width: 42em;
+    letter-spacing: 0;
+  }
+  @media (max-width: 720px) { .head { grid-template-columns: 1fr; gap: 10px; } }
+
+  /* figures */
+  figure { margin: 0; min-width: 0; }
+  .frame {
+    position: relative;
+    background: var(--soft);
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .frame img, .frame video { width: 100%; height: 100%; object-fit: cover; }
+  .frame.wide { aspect-ratio: 16/9; }
+  .frame.auto img, .frame.auto video { width: 100%; height: auto; display: block; object-fit: contain; }
+  figcaption {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  figcaption .fig {
+    flex: none;
+    font: 500 11px/1.9 var(--mono);
+    color: var(--accent);
+    letter-spacing: .04em;
+  }
+  figcaption b { font-weight: 600; }
+  figcaption span.d { color: var(--muted); }
+
+  /* thesis bar */
+  .thesis {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--fg);
+    margin-bottom: clamp(48px, 7vw, 88px);
+  }
+  .thesis div { padding: 18px 20px 0 0; min-width: 0; }
+  .thesis div + div { padding-left: 20px; border-left: 1px solid var(--line); }
+  .thesis .k {
+    font: 500 11px/1 var(--mono);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .thesis p { margin: 10px 0 0; font-size: 15px; }
+  @media (max-width: 760px) {
+    .thesis { grid-template-columns: 1fr; }
+    .thesis div + div { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); margin-top: 18px; }
+  }
+
+  /* capability blocks */
+  .cap {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    gap: clamp(20px, 4vw, 56px);
+    padding-block: clamp(32px, 4vw, 48px);
+    border-top: 1px solid var(--line);
+    align-items: start;
+  }
+  .cap:first-of-type { border-top: 0; padding-top: 0; }
+  .cap .tag {
+    font: 500 11px/1 var(--mono);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .cap h3 {
+    font: 400 clamp(28px, 3.4vw, 40px)/1.08 var(--serif);
+    margin: 12px 0 14px;
+  }
+  .cap p { margin: 0 0 12px; font-size: 15px; }
+  .cap p.d { color: var(--muted); }
+  .spec {
+    list-style: none;
+    margin: 16px 0 0;
+    padding: 0;
+    font-size: 14px;
+  }
+  .spec li {
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr);
+    gap: 12px;
+    padding: 9px 0;
+    border-top: 1px solid var(--line);
+  }
+  .spec li span {
+    font: 500 11px/1.9 var(--mono);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  @media (max-width: 860px) { .cap { grid-template-columns: 1fr; } }
+
+  /* tabs */
+  .tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .tabs button {
+    all: unset;
+    cursor: pointer;
+    font: 500 10.5px/1 var(--mono);
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    padding: 7px 9px;
+    border: 1px solid var(--line);
+    color: var(--muted);
+  }
+  .tabs button[aria-selected="true"] {
+    color: var(--bg);
+    background: var(--fg);
+    border-color: var(--fg);
+  }
+  .tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* live telemetry workbench inside FIG. 01 */
+  .workbench {
+    background: #121110;
+    color: #ece7dc;
+    border: 1px solid var(--line);
+  }
+  .wb-vid {
+    position: relative;
+    background: #000;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+  }
+  .wb-vid video { width: 100%; height: 100%; object-fit: cover; }
+  .wb-hud-top {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .wb-badge {
+    font: 500 10px/1 var(--mono);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 5px 8px;
+    background: rgba(18, 17, 16, 0.82);
+    border: 1px solid rgba(236, 231, 220, 0.2);
+    color: #ece7dc;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    backdrop-filter: blur(4px);
+  }
+  .wb-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #e05a3f;
+    animation: blink 1.2s infinite;
+  }
+  @keyframes blink { 50% { opacity: .25; } }
+  .wb-task {
+    position: absolute;
+    left: 12px;
+    right: 34%;
+    bottom: 14px;
+    display: grid;
+    gap: 4px;
+    justify-items: start;
+  }
+  .wb-task b {
+    font: 400 clamp(16px, 2vw, 21px)/1.2 var(--serif);
+    color: #fff;
+    text-shadow: 0 1px 8px rgba(0,0,0,.85);
+  }
+  .wb-scrub {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    background: rgba(255,255,255,.15);
+  }
+  .wb-scrub i {
+    display: block;
+    height: 100%;
+    background: #e07a4f;
+    width: 0;
+  }
+  .wb-tele {
+    padding: 14px 16px 16px;
+    border-top: 1px solid #2c2924;
+    display: grid;
+    gap: 12px;
+  }
+  .wb-th {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    font: 500 11px/1 var(--mono);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #9a9385;
+  }
+  .wb-th strong { color: #ece7dc; font-weight: 500; }
+  .wb-canvas {
+    width: 100%;
+    height: 116px;
+    display: block;
+  }
+  .wb-grid {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 12px;
+    align-items: stretch;
+  }
+  .wb-joints {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .wb-j, .wb-bar {
+    background: #1a1816;
+    border: 1px solid #2c2924;
+    padding: 6px 8px;
+  }
+  .wb-j span, .wb-bar span {
+    font: 500 10px/1.2 var(--mono);
+    color: #9a9385;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    justify-content: space-between;
+    text-transform: uppercase;
+  }
+  .wb-j span { justify-content: flex-start; }
+  .wb-j span i { width: 6px; height: 6px; display: inline-block; }
+  .wb-j b {
+    display: block;
+    margin-top: 3px;
+    font: 500 13px/1.2 var(--mono);
+    color: #ece7dc;
+  }
+  .wb-bars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .wb-bar b { color: #ece7dc; font-weight: 500; }
+  .wb-track {
+    height: 5px;
+    background: #2c2924;
+    margin-top: 10px;
+    overflow: hidden;
+  }
+  .wb-track i {
+    display: block;
+    height: 100%;
+    background: #e07a4f;
+    width: 0;
+  }
+  .wb-effort {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 22px;
+    margin-top: 6px;
+  }
+  .wb-effort i {
+    flex: 1;
+    background: #d99b52;
+    height: 2px;
+  }
+  @media (max-width: 640px) {
+    .wb-grid { grid-template-columns: 1fr; }
+    .wb-task { right: 12px; bottom: auto; top: 44px; }
+  }
+
+  /* closed-loop product architecture figure */
+  .arch-flow {
+    margin: 8px 0 48px;
+    border: 1px solid var(--line);
+    background: var(--soft);
+  }
+  .arch-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    flex-wrap: wrap;
+    padding: clamp(18px, 2.6vw, 28px);
+    border-bottom: 1px solid var(--line);
+    background: var(--bg);
+  }
+  .arch-head .k {
+    font: 500 11px/1.4 var(--mono);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .arch-head h3 {
+    font: 400 clamp(24px, 3vw, 32px)/1.12 var(--serif);
+    margin: 0;
+  }
+  .arch-head p {
+    margin: 6px 0 0;
+    font-size: 14px;
+    color: var(--muted);
+    max-width: 62ch;
+  }
+  .arch-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font: 500 11px/1 var(--mono);
+  }
+  .arch-pill {
+    padding: 6px 10px;
+    border: 1px solid var(--line);
+    background: var(--soft);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .arch-pill i {
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+  }
+  .arch-canvas {
+    padding: clamp(14px, 2vw, 24px);
+    overflow-x: auto;
+    background: var(--soft);
+  }
+  .arch-canvas svg {
+    width: 100%;
+    min-width: 860px;
+    height: auto;
+    display: block;
+  }
+  .arch-notes {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid var(--line);
+    background: var(--bg);
+  }
+  .arch-notes > div {
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .arch-notes > div + div {
+    border-left: 1px solid var(--line);
+  }
+  .arch-notes b {
+    display: block;
+    font: 500 11px/1.4 var(--mono);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--fg);
+    margin-bottom: 4px;
+  }
+  @media (max-width: 860px) {
+    .arch-notes { grid-template-columns: 1fr 1fr; }
+    .arch-notes > div:nth-child(3) { border-left: 0; }
+    .arch-notes > div:nth-child(n+3) { border-top: 1px solid var(--line); }
+  }
+  @media (max-width: 520px) {
+    .arch-notes { grid-template-columns: 1fr; }
+    .arch-notes > div + div { border-left: 0; border-top: 1px solid var(--line); }
+  }
+
+  /* claims strip */
+  .claims {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    margin-top: clamp(36px, 5vw, 56px);
+    border-top: 1px solid var(--line);
+  }
+  .claims div { padding: 18px 18px 0 0; min-width: 0; }
+  .claims div + div { padding-left: 18px; border-left: 1px solid var(--line); }
+  .claims b { display: block; font: 400 30px/1.1 var(--serif); }
+  .claims p { margin: 8px 0 0; font-size: 14px; color: var(--muted); }
+  @media (max-width: 820px) {
+    .claims { grid-template-columns: 1fr 1fr; }
+    .claims div:nth-child(3) { border-left: 0; padding-left: 0; }
+    .claims div:nth-child(n+3) { margin-top: 18px; }
+  }
+  @media (max-width: 480px) {
+    .claims { grid-template-columns: 1fr; }
+    .claims div + div { border-left: 0; padding-left: 0; margin-top: 18px; }
+  }
+
+  /* ventures / shipped products */
+  .venture {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(20px, 4vw, 56px);
+    padding-block: 8px 44px;
+    align-items: start;
+  }
+  .venture + .venture {
+    border-top: 1px solid var(--line);
+    padding-top: 44px;
+  }
+  .venture h3 { font: 400 clamp(28px, 3.4vw, 36px)/1.1 var(--serif); margin: 0; }
+  .venture .when {
+    font: 500 12px/1.4 var(--mono);
+    color: var(--accent);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin: 10px 0 18px;
+  }
+  .venture ul { margin: 0; padding: 0; list-style: none; }
+  .venture li {
+    padding: 10px 0;
+    border-top: 1px solid var(--line);
+    font-size: 15px;
+  }
+  .venture li b { font-weight: 600; }
+  @media (max-width: 860px) { .venture { grid-template-columns: 1fr; } }
+
+  /* Factory Ops architectural blueprint frame */
+  .blueprint {
+    background: var(--soft);
+    border: 1px solid var(--line);
+    padding: clamp(20px, 3vw, 32px);
+    display: grid;
+    gap: 24px;
+  }
+  .bp-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--fg);
+    padding-bottom: 16px;
+  }
+  .bp-top big {
+    display: block;
+    margin-top: 6px;
+    font: 400 clamp(44px, 6vw, 68px)/.95 var(--serif);
+    letter-spacing: -.02em;
+  }
+  .bp-top span {
+    font: 500 11px/1.5 var(--mono);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .bp-modules {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .bp-mod {
+    padding: 12px 14px 12px 0;
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    gap: 3px;
+  }
+  .bp-mod:nth-child(even) {
+    padding-left: 14px;
+    padding-right: 0;
+    border-left: 1px solid var(--line);
+  }
+  .bp-mod i {
+    font: 500 10px/1 var(--mono);
+    color: var(--muted);
+    font-style: normal;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  .bp-mod b {
+    font: 400 20px/1.2 var(--serif);
+  }
+  .bp-mod small {
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  @media (max-width: 520px) {
+    .bp-modules { grid-template-columns: 1fr; }
+    .bp-mod:nth-child(even) { border-left: 0; padding-left: 0; }
+  }
+
+  /* Tooth Quest 3-phone editorial showcase */
+  .trio {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    background: var(--soft);
+    border: 1px solid var(--line);
+    padding: clamp(16px, 2.5vw, 24px);
+  }
+  .trio-item {
+    display: grid;
+    gap: 8px;
+    align-content: start;
+  }
+  .trio-item .screen {
+    border: 1px solid var(--line);
+    background: var(--bg);
+    overflow: hidden;
+  }
+  .trio-item .screen img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .trio-item small {
+    font: 500 11px/1.35 var(--mono);
+    color: var(--muted);
+    letter-spacing: .03em;
+  }
+  @media (max-width: 520px) {
+    .trio { grid-template-columns: 1fr; }
+  }
+
+  /* EmojiBoard hardware + protocol showcase */
+  .hw-box {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 24px;
+    background: var(--soft);
+    border: 1px solid var(--line);
+    padding: clamp(18px, 3vw, 28px);
+    align-items: center;
+  }
+  .led-matrix {
+    background: #121110;
+    border: 1px solid var(--line);
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .led-matrix img {
+    width: 128px;
+    height: 128px;
+    image-rendering: pixelated;
+    border: 1px solid #2c2924;
+  }
+  .pipe-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .pipe-steps li {
+    display: grid;
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 12px;
+    padding: 9px 0;
+    border-top: 1px solid var(--line);
+    font-size: 13.5px;
+  }
+  .pipe-steps li:first-child { border-top: 0; padding-top: 0; }
+  .pipe-steps li span {
+    font: 500 11px/1.8 var(--mono);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--accent);
+  }
+  @media (max-width: 600px) {
+    .hw-box { grid-template-columns: 1fr; }
+    .led-matrix { max-width: 180px; }
+  }
+
+  /* timeline / archive list */
+  .timeline { list-style: none; margin: 0; padding: 0; }
+  .timeline li {
+    display: grid;
+    grid-template-columns: 180px minmax(0, 1fr) auto;
+    gap: 24px;
+    padding: 18px 0;
+    border-top: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .timeline li:last-child { border-bottom: 1px solid var(--line); }
+  .timeline .t {
+    font: 500 12px/1.6 var(--mono);
+    color: var(--muted);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .timeline .w b {
+    font: 400 22px/1.25 var(--serif);
+    display: block;
+  }
+  .timeline .w span { font-size: 14px; color: var(--muted); }
+  .timeline .tag {
+    font: 500 11px/1 var(--mono);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--accent);
+  }
+  @media (max-width: 720px) {
+    .timeline li { grid-template-columns: 1fr; gap: 4px; }
+  }
+
+  /* contact */
+  .contact { padding-block: clamp(64px, 10vw, 128px); }
+  .contact p.big {
+    font: 400 clamp(32px, 5vw, 60px)/1.1 var(--serif);
+    margin: 18px 0 0;
+    max-width: 17em;
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 32px;
+    margin-top: 32px;
+    font: 500 13px/1 var(--mono);
+    letter-spacing: .04em;
+    align-items: center;
+  }
+  .links a, .links button {
+    all: unset;
+    cursor: pointer;
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 6px;
+  }
+  .links a:hover, .links button:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .links button:focus-visible, .links a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+  }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding-block: 20px calc(20px + env(safe-area-inset-bottom, 0px));
+    font: 400 12px/1 var(--mono);
+    color: var(--muted);
+  }
+  footer .wrap {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="mark" href="#top">Zhen Wang</a>
+    <ul>
+      <li><a href="#robotics">C Robotics</a></li>
+      <li><a href="#products">Shipped</a></li>
+      <li class="opt"><a href="#more">Archive</a></li>
+      <li><a href="Zhen_Wang_Resume.pdf" target="_blank" rel="noopener">Resume PDF</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><button id="themeToggle" type="button" aria-label="Toggle color theme">Theme</button></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="eyebrow">Robotics &amp; AI Founder · C Robotics</div>
+    <h1>Zhen Wang</h1>
+    <p class="lede">I build robots that learn from the human who <em>corrects</em> them — and the software that gets AI into real factories.</p>
+    <div class="stats">
+      <div class="stat">
+        <b>0 → 1</b>
+        <span>full-stack Physical AI flywheel built in-house: VR teleop, TensorRT vision small models, compliant takeover, and π0.5 post-training</span>
+      </div>
+      <div class="stat">
+        <b>$250K</b>
+        <span>enterprise &amp; factory software revenue shipped to production, including a $200K 7-module manufacturing platform</span>
+      </div>
+      <div class="stat">
+        <b>0.46 ms</b>
+        <span>edge TensorRT contact &amp; torque vision inference (98.2% accuracy, 0 manual labels) driving 250 Hz compliant control</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="block" id="robotics">
+  <div class="wrap">
+    <div class="head">
+      <div class="num">01 — Now</div>
+      <h2>C Robotics
+        <small>Closing the loop between foundation policies and physical manipulation: zero-lag stereo teleop, compliant human takeover mid-rollout, and synchronized multi-camera dataset logging.</small>
+      </h2>
+    </div>
+
+    <div class="thesis">
+      <div>
+        <span class="k">The problem</span>
+        <p>Vision-language-action policies fail at the edges of their training data. Hitting e-stop or switching to full manual control throws away the exact moment the robot was most confused.</p>
+      </div>
+      <div>
+        <span class="k">The bet</span>
+        <p>Keep the policy in the loop. When it drifts, let an operator see without latency and nudge the arm gently — turning every edge-case recovery into on-policy training data.</p>
+      </div>
+      <div>
+        <span class="k">The stack</span>
+        <p>An end-to-end system built in-house: 90 Hz spherical VR vision on PICO, fast ImageNet perception &amp; residual small models, π0.5 fine-tuning, and compliant human takeover.</p>
+      </div>
+    </div>
+
+    <!-- Closed-Loop Product Architecture Flowchart (FIG. 01) -->
+    <figure class="arch-flow">
+      <div class="arch-head">
+        <div>
+          <span class="k">System Architecture · 7-Stage Closed-Loop Data &amp; Policy Flywheel</span>
+          <h3>Deploy → Teleop → Collect → Clean → Calibrate → Train → Re-deploy</h3>
+          <p>How slow foundation VLA policies (π0.5), fast perception &amp; residual small models (TensorRT), and human compliant takeover connect inside one continuous loop.</p>
+        </div>
+        <div class="arch-pills">
+          <span class="arch-pill"><i style="background:var(--fg)"></i>Foundation VLA (π0.5)</span>
+          <span class="arch-pill"><i style="background:#2d6a7a"></i>Small Models (Vision &amp; Δp_res)</span>
+          <span class="arch-pill"><i style="background:var(--accent)"></i>Human Compliant Takeover (Δp_human)</span>
+        </div>
+      </div>
+
+      <div class="arch-canvas">
+        <svg viewBox="0 0 1200 544" role="img" aria-label="Seven-stage closed-loop robotics architecture flowchart showing Deploy, Teleop and Compliant Takeover, Collect, Clean, Calibrate, Dual-Track Train, and Re-deploy">
+          <defs>
+            <marker id="arrFg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="var(--fg)"/>
+            </marker>
+            <marker id="arrTeal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="#2d6a7a"/>
+            </marker>
+            <marker id="arrAcc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 8.5 5 L 0 8.5 z" fill="var(--accent)"/>
+            </marker>
+          </defs>
+
+          <!-- ================= 01 · DEPLOY (x=16, w=248) ================= -->
+          <rect x="16" y="20" width="248" height="234" fill="var(--bg)" stroke="var(--fg)" stroke-width="1.2"/>
+          <rect x="16" y="20" width="248" height="28" fill="var(--fg)"/>
+          <text x="28" y="38" fill="var(--bg)" font-family="var(--mono)" font-size="11" font-weight="600" letter-spacing="0.06em">01 · DEPLOY</text>
+          <text x="252" y="38" text-anchor="end" fill="var(--bg)" font-family="var(--mono)" font-size="9.5" opacity="0.8">ORIN / X86 EDGE</text>
+
+          <!-- 1A: Base VLA Policy -->
+          <rect x="28" y="60" width="224" height="74" fill="var(--soft)" stroke="var(--line)"/>
+          <text x="40" y="78" fill="var(--fg)" font-family="var(--serif)" font-size="15.5">Foundation VLA Policy</text>
+          <text x="40" y="95" fill="var(--muted)" font-family="var(--mono)" font-size="10">π0.5 / Diffusion · 20–50 Hz</text>
+          <text x="40" y="111" fill="var(--muted)" font-family="var(--sans)" font-size="11">Chunked semantic trajectory</text>
+          <text x="40" y="126" fill="var(--fg)" font-family="var(--mono)" font-size="10" font-weight="600">Output → base_tip(t)</text>
+
+          <!-- 1B: Fast Small Models -->
+          <rect x="28" y="146" width="224" height="96" fill="var(--soft)" stroke="#2d6a7a" stroke-width="1.5"/>
+          <text x="40" y="164" fill="#2d6a7a" font-family="var(--mono)" font-size="10.5" font-weight="600">FAST SMALL MODELS (TENSORRT)</text>
+          <text x="40" y="181" fill="var(--fg)" font-family="var(--sans)" font-size="11.5" font-weight="600">1. Vision AR (U-Net + ResNet18)</text>
+          <text x="40" y="196" fill="var(--muted)" font-family="var(--mono)" font-size="9.5">Depth · Contact · Dirt (0.46–5.8 ms)</text>
+          <text x="40" y="213" fill="var(--fg)" font-family="var(--sans)" font-size="11.5" font-weight="600">2. Policy Residual Corrector</text>
+          <text x="40" y="229" fill="#2d6a7a" font-family="var(--mono)" font-size="10" font-weight="600">Output → Δp_res(t)</text>
+
+          <!-- ================= 02 · TELEOP & COMPLIANT TAKEOVER (x=300, w=600) ================= -->
+          <rect x="300" y="20" width="600" height="234" fill="var(--bg)" stroke="var(--fg)" stroke-width="1.2"/>
+          <rect x="300" y="20" width="600" height="28" fill="var(--fg)"/>
+          <text x="312" y="38" fill="var(--bg)" font-family="var(--mono)" font-size="11" font-weight="600" letter-spacing="0.06em">02 · TELEOP &amp; COMPLIANT TAKEOVER</text>
+          <text x="888" y="38" text-anchor="end" fill="var(--bg)" font-family="var(--mono)" font-size="9.5" opacity="0.8">CONTINUOUS LOOP · NO E-STOP</text>
+
+          <!-- Upper Tier inside 02: Vision Small Models -> PICO AR HUD -> Human Compliant Takeover -->
+          <rect x="314" y="60" width="178" height="74" fill="var(--soft)" stroke="#2d6a7a" stroke-width="1.4"/>
+          <text x="324" y="77" fill="#2d6a7a" font-family="var(--mono)" font-size="9.5" font-weight="600">VISION SMALL MODELS (30Hz)</text>
+          <text x="324" y="93" fill="var(--fg)" font-family="var(--sans)" font-size="11.5" font-weight="600">Depth + Contact + Dirt</text>
+          <text x="324" y="108" fill="var(--muted)" font-family="var(--mono)" font-size="9.5">• SGBM Glass Plane (&gt;99%)</text>
+          <text x="324" y="122" fill="var(--muted)" font-family="var(--mono)" font-size="9.5">• U-Net Dirt / ResNet18 Mx</text>
+
+          <line x1="492" y1="97" x2="510" y2="97" stroke="#2d6a7a" stroke-width="1.5" marker-end="url(#arrTeal)"/>
+
+          <rect x="512" y="60" width="178" height="74" fill="var(--soft)" stroke="var(--line)"/>
+          <text x="522" y="77" fill="var(--muted)" font-family="var(--mono)" font-size="9.5" font-weight="600">OPERATOR SPATIAL HUD</text>
+          <text x="522" y="93" fill="var(--fg)" font-family="var(--sans)" font-size="11.5" font-weight="600">PICO 4 Ultra AR + Haptics</text>
+          <text x="522" y="108" fill="var(--muted)" font-family="var(--mono)" font-size="9.5">• 90 Hz Spherical Reproj</text>
+          <text x="522" y="122" fill="var(--accent)" font-family="var(--mono)" font-size="9.5" font-weight="600">• 31% Dirt &amp; Bend/Speed Alert</text>
+
+          <line x1="690" y1="97" x2="708" y2="97" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arrAcc)"/>
+
+          <rect x="710" y="60" width="176" height="74" fill="var(--soft)" stroke="var(--accent)" stroke-width="1.8"/>
+          <text x="720" y="77" fill="var(--accent)" font-family="var(--mono)" font-size="9.5" font-weight="600">HUMAN IN THE LOOP</text>
+          <text x="720" y="94" fill="var(--fg)" font-family="var(--serif)" font-size="15.5">Compliant Takeover</text>
+          <text x="720" y="109" fill="var(--muted)" font-family="var(--sans)" font-size="11">Nudges arm on AR/haptic cue</text>
+          <text x="720" y="124" fill="var(--accent)" font-family="var(--mono)" font-size="10" font-weight="600">Injects → Δp_human(t)</text>
+
+          <!-- Lower Tier inside 02: Compliant Residual Junction (⊕) -> Blender -> 250Hz IK/QP -->
+          <circle cx="384" cy="198" r="16" fill="var(--bg)" stroke="var(--fg)" stroke-width="1.5"/>
+          <text x="384" y="203" text-anchor="middle" fill="var(--fg)" font-family="var(--mono)" font-size="16" font-weight="600">⊕</text>
+
+          <!-- Arrow 1: base_tip(t) from 1A into ⊕ -->
+          <path d="M 252 104 L 278 104 L 278 192 L 365 192" fill="none" stroke="var(--fg)" stroke-width="1.5" marker-end="url(#arrFg)"/>
+          <rect x="304" y="175" width="58" height="13" fill="var(--bg)"/>
+          <text x="333" y="185" text-anchor="middle" fill="var(--fg)" font-family="var(--mono)" font-size="9" font-weight="600">base_tip(t)</text>
+
+          <!-- Arrow 2: Δp_res(t) from 1B into ⊕ -->
+          <path d="M 252 214 L 366 205" fill="none" stroke="#2d6a7a" stroke-width="1.5" stroke-dasharray="4 2" marker-end="url(#arrTeal)"/>
+          <rect x="306" y="214" width="54" height="13" fill="var(--bg)"/>
+          <text x="333" y="224" text-anchor="middle" fill="#2d6a7a" font-family="var(--mono)" font-size="9" font-weight="600">Δp_res(t)</text>
+
+          <!-- Arrow 3: Vision model deployment link from 1B to 2A -->
+          <path d="M 252 172 L 288 172 L 288 97 L 311 97" fill="none" stroke="#2d6a7a" stroke-width="1.3" stroke-dasharray="3 2" marker-end="url(#arrTeal)"/>
+
+          <!-- Arrow 4: Δp_human(t) from Human Takeover (2C) into ⊕ -->
+          <path d="M 798 134 L 798 150 L 384 150 L 384 179" fill="none" stroke="var(--accent)" stroke-width="1.8" marker-end="url(#arrAcc)"/>
+          <rect x="492" y="141" width="196" height="16" fill="var(--bg)"/>
+          <text x="590" y="152" text-anchor="middle" fill="var(--accent)" font-family="var(--mono)" font-size="9.5" font-weight="600">← Δp_human(t) Compliant Correction</text>
+
+          <line x1="400" y1="198" x2="424" y2="198" stroke="var(--fg)" stroke-width="1.5" marker-end="url(#arrFg)"/>
+
+          <!-- Compliant Residual Blender Box -->
+          <rect x="426" y="164" width="264" height="68" fill="var(--soft)" stroke="var(--fg)" stroke-width="1.2"/>
+          <text x="438" y="181" fill="var(--fg)" font-family="var(--mono)" font-size="10" font-weight="600">COMPLIANT RESIDUAL BLENDER</text>
+          <text x="438" y="198" fill="var(--accent)" font-family="var(--mono)" font-size="9.2" font-weight="600">target = base_tip ⊕ clip(Δp_res + Δp_human)</text>
+          <text x="438" y="214" fill="var(--muted)" font-family="var(--sans)" font-size="11">Yields smoothly without aborting policy rollout</text>
+
+          <line x1="690" y1="198" x2="708" y2="198" stroke="var(--fg)" stroke-width="1.5" marker-end="url(#arrFg)"/>
+
+          <!-- Robot Actuation & Sensors Box -->
+          <rect x="710" y="164" width="176" height="68" fill="var(--soft)" stroke="var(--line)"/>
+          <text x="720" y="181" fill="var(--muted)" font-family="var(--mono)" font-size="9.5" font-weight="600">250Hz IK/QP · 500Hz GATES</text>
+          <text x="720" y="197" fill="var(--fg)" font-family="var(--sans)" font-size="11.5" font-weight="600">Dual 7-DoF Arms &amp; Tool</text>
+          <text x="720" y="213" fill="var(--muted)" font-family="var(--mono)" font-size="9.5">Stereo/Wrist + 6-Axis F/T</text>
+
+          <!-- Arrow from 02 to 03 COLLECT -->
+          <line x1="900" y1="136" x2="933" y2="136" stroke="var(--fg)" stroke-width="1.6" marker-end="url(#arrFg)"/>
+
+          <!-- ================= 03 · COLLECT (x=936, w=248) ================= -->
+          <rect x="936" y="20" width="248" height="234" fill="var(--bg)" stroke="var(--fg)" stroke-width="1.2"/>
+          <rect x="936" y="20" width="248" height="28" fill="var(--fg)"/>
+          <text x="948" y="38" fill="var(--bg)" font-family="var(--mono)" font-size="11" font-weight="600" letter-spacing="0.06em">03 · COLLECT</text>
+          <text x="1172" y="38" text-anchor="end" fill="var(--bg)" font-family="var(--mono)" font-size="9.5" opacity="0.8">15Hz–1kHz</text>
+
+          <text x="948" y="68" fill="var(--fg)" font-family="var(--serif)" font-size="15">Synchronized Episode Log</text>
+          <text x="948" y="88" fill="var(--muted)" font-family="var(--mono)" font-size="10">• Stereo + Wrist H.265 RGB</text>
+          <text x="948" y="106" fill="var(--muted)" font-family="var(--mono)" font-size="10">• Joint q, q_cmd &amp; Effort</text>
+          <text x="948" y="124" fill="var(--muted)" font-family="var(--mono)" font-size="10">• 6-Axis F/T Teacher (Mx, |F|)</text>
+          <rect x="948" y="136" width="224" height="54" fill="var(--soft)" stroke="var(--line)"/>
+          <text x="958" y="152" fill="var(--fg)" font-family="var(--mono)" font-size="9.5" font-weight="600">DECOMPOSED ACTION STREAMS:</text>
+          <text x="958" y="167" fill="var(--muted)" font-family="var(--mono)" font-size="9.5">base_tip(t)  |  Δp_res(t)</text>
+          <text x="958" y="181" fill="var(--accent)" font-family="var(--mono)" font-size="9.5" font-weight="600">+ Δp_human(t) takeover labels</text>
+          <text x="948" y="212" fill="var(--fg)" font-family="var(--mono)" font-size="10" font-weight="600">→ MCAP + Lineage Manifest</text>
+
+          <!-- Downward arrow 03 COLLECT -> 04 CLEAN -->
+          <line x1="1060" y1="254" x2="1060" y2="299" stroke="var(--fg)" stroke-width="1.8" marker-end="url(#arrFg)"/>
+          <text x="1070" y="281" fill="var(--muted)" font-family="var(--mono)" font-size="9.5" font-weight="600">Raw MCAP Episodes ↓</text>
+
+          <!-- ================= 04 · CLEAN (x=936, w=248) ================= -->
+          <rect x="936" y="302" width="248" height="222" fill="var(--bg)" stroke="var(--fg)" stroke-width="1.2"/>
+          <rect x="936" y="302" width="248" height="28" fill="var(--fg)"/>
+          <text x="948" y="320" fill="var(--bg)" font-family="var(--mono)" font-size="11" font-weight="600" letter-spacing="0.06em">04 · CLEAN</text>
+          <text x="1172" y="320" text-anchor="end" fill="var(--bg)" font-family="var(--mono)" font-size="9.5" opacity="0.8">AUTO-TEACHER</text>
+
+          <text x="948" y="350" fill="var(--fg)" font-family="var(--serif)" font-size="15">Filter &amp; Automated Labeling</text>
+          <text x="948" y="370" fill="var(--muted)" font-family="var(--mono)" font-size="10">• Strip clutch pauses &amp; aborts</text>
+          <text x="948" y="388" fill="var(--muted)" font-family="var(--mono)" font-size="10">• Slice takeover intervention clips</text>
+          <rect x="948" y="400" width="224" height="108" fill="var(--soft)" stroke="#2d6a7a" stroke-width="1.2"/>
+          <text x="958" y="417" fill="#2d6a7a" font-family="var(--mono)" font-size="9.5" font-weight="600">ZERO-MANUAL-LABEL TEACHERS:</text>
+          <text x="958" y="434" fill="var(--fg)" font-family="var(--sans)" font-size="11" font-weight="600">1. Dirt &amp; Tool Mask Teacher</text>
+          <text x="958" y="448" fill="var(--muted)" font-family="var(--mono)" font-size="9.5">Multi-demo median clean_ref.py</text>
+          <text x="958" y="467" fill="var(--fg)" font-family="var(--sans)" font-size="11" font-weight="600">2. Contact &amp; Torque Teacher</text>
+          <text x="958" y="481" fill="var(--muted)" font-family="var(--mono)" font-size="9.5">6-axis F/T Mx &amp; |F| ground truth</text>
+          <text x="958" y="498" fill="var(--accent)" font-family="var(--mono)" font-size="9.5" font-weight="600">3. Human Δp_human(t) targets</text>
+
+          <!-- Leftward arrow 04 CLEAN -> 05 CALIBRATE -->
+          <line x1="936" y1="412" x2="903" y2="412" stroke="var(--fg)" stroke-width="1.6" marker-end="url(#arrFg)"/>
+
+          <!-- ================= 05 · CALIBRATE (x=676, w=224) ================= -->
+          <rect x="676" y="302" width="224" height="222" fill="var(--bg)" stroke="var(--fg)" stroke-width="1.2"/>
+          <rect x="676" y="302" width="224" height="28" fill="var(--fg)"/>
+          <text x="688" y="320" fill="var(--bg)" font-family="var(--mono)" font-size="11" font-weight="600" letter-spacing="0.06em">05 · CALIBRATE</text>
+          <text x="888" y="320" text-anchor="end" fill="var(--bg)" font-family="var(--mono)" font-size="9.5" opacity="0.8">SPACE &amp; TIME</text>
+
+          <text x="688" y="350" fill="var(--fg)" font-family="var(--serif)" font-size="15">Clock &amp; Frame Alignment</text>
+          <text x="688" y="372" fill="var(--muted)" font-family="var(--mono)" font-size="10">• Camera exposure sync:</text>
+          <text x="688" y="388" fill="var(--fg)" font-family="var(--mono)" font-size="10" font-weight="600">  t_cam = t_q − 115 ms</text>
+          <text x="688" y="408" fill="var(--muted)" font-family="var(--mono)" font-size="10">• Motor/QP lag (60–145 ms)</text>
+          <text x="688" y="428" fill="var(--muted)" font-family="var(--mono)" font-size="10">• Stereo SGBM + RANSAC</text>
+          <text x="688" y="444" fill="var(--muted)" font-family="var(--mono)" font-size="10">  glass-plane fit (~47 px disp)</text>
+          <text x="688" y="464" fill="var(--muted)" font-family="var(--mono)" font-size="10">• FK/TCP (T_eef→tcp) &amp;</text>
+          <text x="688" y="480" fill="var(--muted)" font-family="var(--mono)" font-size="10">  continuous quaternion sign</text>
+
+          <!-- Leftward arrows 05 CALIBRATE -> 06 TRAIN (Track A & Track B) -->
+          <line x1="676" y1="372" x2="647" y2="372" stroke="var(--fg)" stroke-width="1.5" marker-end="url(#arrFg)"/>
+          <line x1="676" y1="458" x2="647" y2="458" stroke="#2d6a7a" stroke-width="1.5" marker-end="url(#arrTeal)"/>
+
+          <!-- ================= 06 · TRAIN (x=300, w=344) ================= -->
+          <rect x="300" y="302" width="344" height="222" fill="var(--bg)" stroke="var(--fg)" stroke-width="1.2"/>
+          <rect x="300" y="302" width="344" height="28" fill="var(--fg)"/>
+          <text x="312" y="320" fill="var(--bg)" font-family="var(--mono)" font-size="11" font-weight="600" letter-spacing="0.06em">06 · TRAIN (DUAL-TRACK)</text>
+          <text x="632" y="320" text-anchor="end" fill="var(--bg)" font-family="var(--mono)" font-size="9.5" opacity="0.8">VLA + SMALL MODELS</text>
+
+          <!-- Track A: Base VLA Policy -->
+          <rect x="312" y="340" width="320" height="68" fill="var(--soft)" stroke="var(--line)"/>
+          <text x="324" y="357" fill="var(--fg)" font-family="var(--mono)" font-size="10" font-weight="600">TRACK A · FOUNDATION VLA POLICY (π0.5)</text>
+          <text x="324" y="374" fill="var(--fg)" font-family="var(--sans)" font-size="11.5">Post-trained on full teleop + takeover trajectories</text>
+          <text x="324" y="391" fill="var(--muted)" font-family="var(--mono)" font-size="9.5">target(t) exported to LeRobot v2.1 (632 episodes)</text>
+
+          <!-- Track B: Fast Small Models -->
+          <rect x="312" y="418" width="320" height="92" fill="var(--soft)" stroke="#2d6a7a" stroke-width="1.5"/>
+          <text x="324" y="435" fill="#2d6a7a" font-family="var(--mono)" font-size="10" font-weight="600">TRACK B · FAST SMALL MODELS</text>
+          <text x="324" y="452" fill="var(--fg)" font-family="var(--sans)" font-size="11.5" font-weight="600">• Policy Residual Small Model (Δp_res)</text>
+          <text x="324" y="466" fill="var(--accent)" font-family="var(--mono)" font-size="9.5">  Trained on human takeover Δp_human(t) (base frozen)</text>
+          <text x="324" y="483" fill="var(--fg)" font-family="var(--sans)" font-size="11.5" font-weight="600">• Vision Small Models (ImageNet Pretrained)</text>
+          <text x="324" y="498" fill="var(--muted)" font-family="var(--mono)" font-size="9.5">  U-Net Dirt (0.95 IoU) + Wrist ResNet18 Mx (r=0.959)</text>
+
+          <!-- Leftward arrows 06 TRAIN -> 07 RE-DEPLOY -->
+          <line x1="300" y1="372" x2="267" y2="372" stroke="var(--fg)" stroke-width="1.5" marker-end="url(#arrFg)"/>
+          <line x1="300" y1="458" x2="267" y2="458" stroke="#2d6a7a" stroke-width="1.5" marker-end="url(#arrTeal)"/>
+
+          <!-- ================= 07 · RE-DEPLOY (x=16, w=248) ================= -->
+          <rect x="16" y="302" width="248" height="222" fill="var(--bg)" stroke="var(--fg)" stroke-width="1.2"/>
+          <rect x="16" y="302" width="248" height="28" fill="var(--fg)"/>
+          <text x="28" y="320" fill="var(--bg)" font-family="var(--mono)" font-size="11" font-weight="600" letter-spacing="0.06em">07 · RE-DEPLOY</text>
+          <text x="252" y="320" text-anchor="end" fill="var(--bg)" font-family="var(--mono)" font-size="9.5" opacity="0.8">R1 / R2 GATES</text>
+
+          <text x="28" y="350" fill="var(--fg)" font-family="var(--serif)" font-size="15">Verify &amp; Rollout to Edge</text>
+          <text x="28" y="372" fill="var(--muted)" font-family="var(--mono)" font-size="10">• FP16 TensorRT Engine Build:</text>
+          <text x="28" y="388" fill="#2d6a7a" font-family="var(--mono)" font-size="10" font-weight="600">  0.46 ms (Contact) / 5.8 ms (Dirt)</text>
+          <text x="28" y="408" fill="var(--muted)" font-family="var(--mono)" font-size="10">• R1 Gate: Shadow-mode parity</text>
+          <text x="28" y="426" fill="var(--muted)" font-family="var(--mono)" font-size="10">• R2 Gate: On-rig safety &amp; force</text>
+          <rect x="28" y="442" width="224" height="66" fill="var(--soft)" stroke="var(--accent)" stroke-width="1.2"/>
+          <text x="38" y="460" fill="var(--accent)" font-family="var(--mono)" font-size="9.5" font-weight="600">CLOSES THE FLYWHEEL ↑</text>
+          <text x="38" y="476" fill="var(--fg)" font-family="var(--sans)" font-size="11">Updated π0.5 + Residual Δp_res</text>
+          <text x="38" y="492" fill="var(--fg)" font-family="var(--sans)" font-size="11">+ Vision AR models → 01 Deploy</text>
+
+          <!-- Upward return arrow 07 RE-DEPLOY -> 01 DEPLOY -->
+          <line x1="140" y1="302" x2="140" y2="257" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrAcc)"/>
+          <text x="150" y="282" fill="var(--accent)" font-family="var(--mono)" font-size="9.5" font-weight="600">↑ Next-Gen Bundle</text>
+        </svg>
+      </div>
+
+      <div class="arch-notes">
+        <div>
+          <b>01 · Why Small Models in the Loop</b>
+          Fast ImageNet small models (0.46–5.8 ms TensorRT) extract glass depth, remaining dirt, and squeegee blade torque at 30 Hz — giving both the operator AR HUD and the residual controller instant physical feedback.
+        </div>
+        <div>
+          <b>02 · Compliant Human Takeover</b>
+          Instead of hitting E-stop when π0.5 drifts, the operator applies a bounded delta Δp_human(t) via target = base_tip ⊕ clip(Δp_res + Δp_human), keeping the episode unbroken.
+        </div>
+        <div>
+          <b>03 · Zero-Manual-Label Cleaning &amp; Calibration</b>
+          Stain masks are auto-labeled via multi-demo clean-reference medians (clean_ref.py); contact &amp; bending torque are auto-labeled from 6-axis F/T teacher signals aligned to camera exposure (t_q − 115 ms).
+        </div>
+        <div>
+          <b>04 · Dual-Track Training &amp; Re-deploy</b>
+          Every human correction trains the lightweight residual small model (Δp_res) within hours while full trajectories fine-tune π0.5 — re-deployed together after R1/R2 safety gates.
+        </div>
+      </div>
+
+      <figcaption style="padding: 12px 20px; border-top: 1px solid var(--line); background: var(--bg);">
+        <span class="fig">FIG. 01</span>
+        <span><b>Closed-loop product architecture.</b> <span class="d">Seven-stage flywheel uniting foundation VLA policies, fast perception/residual small models, and compliant human takeover.</span></span>
+      </figcaption>
+    </figure>
+
+    <!-- 01 · Live Telemetry & Data Pipeline -->
+    <div class="cap">
+      <div>
+        <span class="tag">01 · Data &amp; Telemetry</span>
+        <h3>Synchronized teleop logging at 15 Hz</h3>
+        <p>Clean post-training requires more than video. Every demonstration logs overhead and wrist RGB streams in lockstep with 6-DOF joint angles, commanded targets, gripper aperture, and motor effort.</p>
+        <p class="d">Over two days of collection on our order-picking bench, we logged 632 episodes (5.3 hours, 590 successful completions) exported directly to LeRobot v2.1 format for π0.5 fine-tuning.</p>
+        <ul class="spec">
+          <li><span>Dataset</span><div><b>632 episodes</b> · 5.3 hours · 93% success (590)</div></li>
+          <li><span>Platform</span>Airbot Play 6-DOF arm + parallel gripper</li>
+          <li><span>Streams</span>Head + wrist RGB, joint state q, action, effort @ 15 Hz</li>
+          <li><span>Prompt</span>“pick up the water bottle with red cap and put it in compartment A”</li>
+        </ul>
+      </div>
+      <figure>
+        <div class="workbench">
+          <div class="wb-vid">
+            <video id="pv" src="media/pick.mp4" poster="media/pick_cover.jpg" autoplay muted loop playsinline preload="metadata"></video>
+            <div class="wb-hud-top">
+              <span class="wb-badge"><i class="wb-dot"></i>REC · Oct 17, 2026</span>
+              <span class="wb-badge">airbot-play · head + wrist cam</span>
+            </div>
+            <div class="wb-task">
+              <span class="wb-badge">Teleop demo · training data for π0.5</span>
+              <b>“pick up the water bottle with red cap and put it in compartment A”</b>
+            </div>
+            <div class="wb-scrub"><i id="scrub"></i></div>
+          </div>
+          <div class="wb-tele">
+            <div class="wb-th">
+              <strong>Joint state &amp; effort, as logged</strong>
+              <span id="clock">t = 0.00 s · 15 Hz</span>
+            </div>
+            <canvas class="wb-canvas" id="cv" aria-label="Six joint angle traces over the episode"></canvas>
+            <div class="wb-grid">
+              <div class="wb-joints" id="joints"></div>
+              <div class="wb-bars">
+                <div class="wb-bar">
+                  <span>Gripper <b class="mono" id="gv">0.000</b></span>
+                  <div class="wb-track"><i id="gbar"></i></div>
+                </div>
+                <div class="wb-bar">
+                  <span>Effort <b class="mono" id="ev">0.0</b></span>
+                  <div class="wb-effort" id="eff"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption>
+          <span class="fig">FIG. 02</span>
+          <span><b>Live episode replay synced to raw telemetry.</b> <span class="d">Real logged frames and 15 Hz joint/effort streams from episode 20261017T012745.</span></span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- 02 · π0.5 Compliant Takeover -->
+    <div class="cap">
+      <div>
+        <span class="tag">02 · Compliant Takeover</span>
+        <h3>Nudge π0.5 mid-rollout instead of stopping it</h3>
+        <p>When a fine-tuned VLA policy drifts near bin boundaries or novel object poses, the standard response is an emergency stop or full manual takeover — discarding the exact state where the policy needed help.</p>
+        <p class="d">I built a compliant residual layer on an Airbot arm: while π0.5 runs continuously, joystick input blends a bounded fingertip delta into the policy's target before inverse kinematics and safety gates. The arm yields smoothly and logs the human correction right where the model is weakest.</p>
+        <ul class="spec">
+          <li><span>Role</span>Solo build, end to end</li>
+          <li><span>Model</span>π0.5 fine-tuned on PICO teleop demonstrations</li>
+          <li><span>Control</span>Compliant position residual blended into live policy actions</li>
+          <li><span>Task</span>5-SKU order picking into compartments A, B, and C</li>
+        </ul>
+      </div>
+      <figure>
+        <div class="tabs" role="tablist" aria-label="π0.5 views">
+          <button role="tab" aria-selected="true" data-pi="intent">01 · Planned trajectories (Bins A/B/C)</button>
+          <button role="tab" aria-selected="false" data-pi="bench">02 · Session camera alignment</button>
+        </div>
+        <div class="frame wide">
+          <img id="piImg" src="media/pi05.jpg" alt="Order-picking bench with five items mapped to compartments A, B, and C">
+        </div>
+        <figcaption>
+          <span class="fig">FIG. 03</span>
+          <span id="piCap"><b>Multi-bin order picking with π0.5.</b> <span class="d">Five tabletop items mapped to target compartments A, B, and C with overlaid trajectory rollouts.</span></span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- 03 · 3D World State & Spatial Safety -->
+    <div class="cap">
+      <div>
+        <span class="tag">03 · 3D World State &amp; Spatial Safety</span>
+        <h3>Real-time 3D workspace reconstruction &amp; world-state engine</h3>
+        <p>Raw RGB frames don't tell a controller where the tabletop ends, when a human hand enters the workspace, or whether a target object is still behind the moving arm. I built a GPU-accelerated 3D world-state engine (<span class="mono">gpu_world.py</span>) that fuses dual calibrated RealSense RGB-D streams (<span class="mono">head</span> + <span class="mono">side</span>) into the robot's base frame at <b>15 Hz</b> (<b>4.8–9.0 ms</b> display latency).</p>
+        <p class="d">Each cycle runs URDF mesh self-filtering to subtract the moving manipulator from the depth cloud, compares against a per-pixel statistical background model, and updates a 1 cm Euclidean Signed Distance Field (ESDF) voxel map. Tabletop objects are tracked in 3D with live velocity (<span class="mono">mm/s</span>) and <b>occlusion memory</b> (<span class="mono">Static</span> / <span class="mono">Moving</span> / <span class="mono">Occluded</span> — retaining object permanence even when the arm blocks a camera's line of sight), while a <b>15 cm proximity hazard envelope</b> feeds the L1 safety gate to scale speed or halt before contact.</p>
+        <ul class="spec">
+          <li><span>Sensors</span><div><b>2× Intel RealSense RGB-D</b> (<span class="mono">head</span> overhead + <span class="mono">side</span> lateral, AprilTag calibrated to ≤2.2 mm)</div></li>
+          <li><span>World Update</span><div><b>15 Hz</b> (15 maps/sec) · <b>4.8–9.0 ms</b> display latency · 1 cm ESDF voxel grid</div></li>
+          <li><span>World State</span><div>URDF mesh self-filtering · per-pixel background subtraction · <b>occlusion-aware 3D object tracking</b></div></li>
+          <li><span>Safety Gate</span><div>Live <b>15 cm</b> arm-proximity hazard zone (red voxels) → automatic L1 velocity scaling &amp; stop</div></li>
+        </ul>
+      </div>
+      <figure>
+        <div class="frame auto">
+          <video src="media/world_3d.mp4" poster="media/world_3d_cover.jpg" autoplay muted loop playsinline preload="metadata"></video>
+        </div>
+        <figcaption>
+          <span class="fig">FIG. 04</span>
+          <span><b>Live 15 Hz 3D workspace &amp; world-state sense.</b> <span class="d">Dual RealSense cameras reconstruct the manipulator, tabletop surface, 15 cm proximity hazard voxels (red), and tracked 3D objects with velocity and occlusion state (<span class="mono">Static</span> / <span class="mono">Moving</span> / <span class="mono">Occluded</span>).</span></span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- 04 · Contact-Rich Diffusion Policy & Haptic Stylus Takeover -->
+    <div class="cap">
+      <div>
+        <span class="tag">04 · Diffusion Policy &amp; Haptic Stylus Takeover</span>
+        <h3>300-demo Diffusion Policy with Touch haptic stylus residual takeover</h3>
+        <p>Wiping glass requires sustained ~20 N normal pressure and smooth lateral lane transitions; a pure vision policy easily loses blade contact or stalls near window frames. I trained a base <b>Diffusion Policy</b> (<span class="mono">CLIP ViT-B/32</span> + U-Net, 8-step DDIM on Jetson AGX Orin) on <b>300 demonstrations</b> to wipe glass on our 7-DOF humanoid arm in Cartesian impedance mode (<span class="mono">IMP_CART</span>).</p>
+        <p class="d">Instead of aborting when the policy under-presses or drifts, an operator holds a 3D Systems <b>Touch force-feedback stylus</b> (feeling live 3-axis tool contact forces at 100 Hz) and applies smooth <b>compliant residual corrections</b> directly on top of the running base policy (<span class="mono">Vt = B(t) ∘ ΔR(t) ∘ exp(−F_exp / K_eff)</span>). The base policy never breaks stride — and every stylus correction is logged as a 15-D residual label to train a lightweight <b>50 Hz residual policy</b> (<span class="mono">MLPResidual</span>) that automatically corrects the frozen base model on future runs.</p>
+        <ul class="spec">
+          <li><span>Base Policy</span><div><b>Diffusion Policy</b> (<span class="mono">CLIP ViT-B/32</span> + U-Net) trained on <b>300 demonstrations</b> (32-step horizon, DDIM-8 on Orin)</div></li>
+          <li><span>Haptic Takeover</span><div><b>3D Systems Touch Stylus</b> · 100 Hz bilateral 3-axis force feedback &amp; non-destructive pose/force overlay</div></li>
+          <li><span>Control Law</span><div><span class="mono">Vt = B(t) ∘ ΔR_res(t) ∘ exp(−F_exp / K_eff)</span> @ <b>200 Hz</b> Cartesian impedance (<span class="mono">IMP_CART</span>)</div></li>
+          <li><span>Residual Loop</span><div><b>50 Hz <span class="mono">MLPResidual</span> small model</b> trained on human stylus corrections (15-D pose + wrench labels) to auto-correct base policy</div></li>
+        </ul>
+      </div>
+      <figure>
+        <div class="frame auto">
+          <video src="media/wipe_diffusion_touch.mp4" poster="media/wipe_diffusion_touch_cover.jpg" autoplay muted loop playsinline preload="metadata"></video>
+        </div>
+        <figcaption>
+          <span class="fig">FIG. 05</span>
+          <span><b>Closed-loop glass wiping on Gento Luna.</b> <span class="d">Base Diffusion Policy (300 demos) executing vertical wipe lanes in Cartesian impedance mode while accepting real-time compliant residual corrections from a force-feedback Touch stylus.</span></span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- 05 · Luna Vision -->
+    <div class="cap">
+      <div>
+        <span class="tag">05 · Spatial Vision</span>
+        <h3>Luna Vision: 90 Hz spherical reprojection</h3>
+        <p>Teleop video arrives late over the network. If the image lags behind your head, the room appears to swim every time you look around, making fine contact work exhausting.</p>
+        <p class="d">Following NimbRo (winner of the ANA Avatar XPRIZE), every stereo fisheye frame carries the camera's capture-time pose. The PICO 4 Ultra headset projects each frame onto a 1 m sphere and redraws locally at 90 Hz from the operator's real eye position — so turning your head has zero perceived delay while Luna's physical neck catches up.</p>
+        <ul class="spec">
+          <li><span>Headset</span>PICO 4 Ultra</li>
+          <li><span>Optics</span>2× fisheye cameras, stereo pair</li>
+          <li><span>Render</span>90 Hz local spherical reprojection</li>
+          <li><span>Built by</span>C Robotics, in-house</li>
+        </ul>
+      </div>
+      <figure>
+        <div class="tabs" role="tablist" aria-label="Luna Vision clips">
+          <button role="tab" aria-selected="true" data-luna="single">01 · Operator single-eye view</button>
+          <button role="tab" aria-selected="false" data-luna="stereo">02 · Full stereo fisheye stream</button>
+        </div>
+        <div class="frame wide">
+          <video id="lunaVideo" src="media/luna.mp4" poster="media/luna_cover.jpg" autoplay muted loop playsinline preload="metadata"></video>
+        </div>
+        <figcaption>
+          <span class="fig">FIG. 06</span>
+          <span id="lunaCap"><b>Head-tracked stereo fisheye teleop.</b> <span class="d">Captured inside the PICO headset: local 90 Hz spherical reprojection keeps the world stable as the operator looks around.</span></span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- 06 · Window-Wipe AR & Vision Small Models -->
+    <div class="cap">
+      <div>
+        <span class="tag">06 · Vision Small Models &amp; Contact AR</span>
+        <h3>Window-wipe AR: ImageNet small models for depth, contact &amp; dirt</h3>
+        <p>Through a VR headset, transparent glass offers almost no visual cues for remaining streaks, plane depth, or squeegee blade bending. Instead of running a heavy VLM, we trained fast ImageNet-pretrained vision small models using automated multi-demo medians and 6-axis F/T sensor teachers — zero manual pixel or frame labeling.</p>
+        <p class="d">A U-Net + ResNet18 segments dirt and the physical tool in 5.8 ms (0.95 tool IoU), fused with SGBM stereo disparity and RANSAC glass-plane fitting (&gt;99% on-glass dirt isolation) so AR stain glow hides naturally behind the arm. In parallel, a wrist-camera ResNet18 (0.46 ms TensorRT) regresses blade contact force and bending torque Mx (r = 0.959, 98.2% contact accuracy), driving blade-edge warning lines (reverse-bend / high-speed alerts) and PICO controller haptics to cue compliant human takeover.</p>
+        <ul class="spec">
+          <li><span>Dirt &amp; Tool Model</span><div><b>ImageNet U-Net + ResNet18</b> · 0.95 Tool IoU · 0.08 pp area MAE (5.8 ms FP16 TRT)</div></li>
+          <li><span>Stereo Depth Plane</span><div><b>SGBM Disparity + RANSAC</b> · &gt;99% on-glass dirt separation &amp; live tool occlusion</div></li>
+          <li><span>Contact &amp; Bend Model</span><div><b>ImageNet ResNet18 (Wrist Crop)</b> · 98.2% contact acc · Mx r = 0.959 (0.46 ms TRT)</div></li>
+          <li><span>AR HUD &amp; Haptics</span><div>12×8 perspective glass grid · blade contact line · OpenXR PICO 2×120 ms pulse</div></li>
+        </ul>
+      </div>
+      <figure>
+        <div class="tabs" role="tablist" aria-label="Window-wipe AR and small vision model views">
+          <button role="tab" aria-selected="true" data-wipe="hud">01 · AR HUD (Contact &amp; Dirt)</button>
+          <button role="tab" aria-selected="false" data-wipe="depth">02 · Stereo Depth &amp; Dirt Mask</button>
+          <button role="tab" aria-selected="false" data-wipe="progress">03 · Wipe Coverage (64% → 0%)</button>
+          <button role="tab" aria-selected="false" data-wipe="torque">04 · Vision vs. F/T Torque</button>
+        </div>
+        <div class="frame auto">
+          <img id="wipeImg" src="media/ar_hud_4state.jpg" alt="Window-wipe AR HUD showing remaining dirt mask, perspective grid, wrist camera, and ResNet18 blade contact/bend alerts" loading="lazy">
+        </div>
+        <figcaption>
+          <span class="fig">FIG. 07</span>
+          <span id="wipeCap"><b>Live PICO AR HUD across four contact states.</b> <span class="d">Pre-contact (62% dirt), normal downward wipe (blue blade line, 17.1 N), fast wipe warning (orange blade line + haptic pulse), and reverse-bend alert (red blade line, 26.7 N) with live wrist-cam ResNet18 vs. F/T torque bar.</span></span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <div class="claims">
+      <div>
+        <b>632 + 300</b>
+        <p>logged demonstrations across π0.5 bin picking (632) and Diffusion Policy glass wiping (300)</p>
+      </div>
+      <div>
+        <b>15 Hz / 4.8 ms</b>
+        <p>dual-RealSense 3D ESDF world-state reconstruction with occlusion memory &amp; 15 cm safety envelope</p>
+      </div>
+      <div>
+        <b>0.95 IoU</b>
+        <p>ImageNet U-Net dirt/tool AR &amp; 98.2% wrist ResNet18 contact accuracy (0.46 ms TensorRT)</p>
+      </div>
+      <div>
+        <b>VLA + ΔR</b>
+        <p>non-destructive compliant takeover (PICO &amp; Touch haptic stylus) training 50 Hz residual small models</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="products">
+  <div class="wrap">
+    <div class="head">
+      <div class="num">02 — Shipped</div>
+      <h2>Products in production, $250K revenue
+        <small>Before focusing full-time on robotics, I embedded on factory floors to build and ship B2B operations software — alongside solo consumer and hardware products built from scratch.</small>
+      </h2>
+    </div>
+
+    <!-- Venture 01: Factory Ops Platform -->
+    <div class="venture">
+      <div>
+        <h3>Factory Ops Platform</h3>
+        <div class="when">2024 – 2025 · WeyLink AI · $200K Contract · Forward-Deployed Engineer</div>
+        <ul>
+          <li><b>The problem:</b> A commercial food manufacturer was still running core operations on a 1990s ERP — recipe revisions, purchasing, and batch schedules lived in disconnected spreadsheets and paper travelers.</li>
+          <li><b>On-site discovery:</b> Embedded directly on the factory floor to shadow operators across departments, author PRDs, and ship an integrated <b>7-module operations platform</b> under a <b>$200K contract</b>.</li>
+          <li><b>What shipped:</b> End-to-end production system spanning recipe version control, procurement alignment, supplier documentation, batch-merge scheduling, and live shop-floor tracking.</li>
+        </ul>
+      </div>
+      <figure>
+        <div class="blueprint">
+          <div class="bp-top">
+            <div>
+              <span>Signed Enterprise Engagement · Built On-Site</span>
+              <big>$200K Contract</big>
+            </div>
+            <span>7 Production Modules · Legacy ERP Bridge</span>
+          </div>
+          <div class="bp-modules">
+            <div class="bp-mod">
+              <i>Module 01 · R&amp;D / QA</i>
+              <b>Recipe Version Control</b>
+              <small>BOM diffs, yield scaling &amp; allergen lockouts</small>
+            </div>
+            <div class="bp-mod">
+              <i>Module 02 · Supply Chain</i>
+              <b>Procurement Alignment</b>
+              <small>Raw material demand synced to active production runs</small>
+            </div>
+            <div class="bp-mod">
+              <i>Module 03 · Compliance</i>
+              <b>Supplier Documentation</b>
+              <small>Automated COA, spec sheet &amp; audit trail ingestion</small>
+            </div>
+            <div class="bp-mod">
+              <i>Module 04 · Planning</i>
+              <b>Batch-Merge Scheduling</b>
+              <small>Consolidates shared sub-batches across daily lines</small>
+            </div>
+            <div class="bp-mod">
+              <i>Module 05 · Execution</i>
+              <b>Shop-Floor Tracking</b>
+              <small>Line-side tablet check-ins replacing paper travelers</small>
+            </div>
+            <div class="bp-mod">
+              <i>Modules 06–07 · Integration</i>
+              <b>Inventory &amp; 1990s ERP Sync</b>
+              <small>Lot traceability &amp; bidirectional ledger reconciliation</small>
+            </div>
+          </div>
+        </div>
+        <figcaption>
+          <span class="fig">FIG. 06</span>
+          <span><b>Seven-module factory operations platform.</b> <span class="d">Scoped on the production floor and deployed over a 1990s legacy ERP.</span></span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- Venture 02: Forecast Runner -->
+    <div class="venture">
+      <div>
+        <h3>Forecast Runner</h3>
+        <div class="when">2026 · Solo Build · TimesFM + ARIMA+ + AI Agents</div>
+        <ul>
+          <li><b>The problem:</b> Emerging brands plan their first inventory buy from a spreadsheet and a gut feeling, while most “AI forecasting” tools simply let an LLM make up numbers.</li>
+          <li><b>The insight:</b> Use the language model only for what it does well — mapping messy CSV columns and writing plain-English explanations — and keep it strictly away from the math. Real time-series models produce every figure, and a guardrail rejects any number the LLM tries to invent.</li>
+          <li><b>How it works:</b> Six-step workflow (data package → scenario → AI setup → model plan → forecast → shareable report). Every model in the basket is marked executed, not configured, or not runnable — zero silent fallbacks.</li>
+        </ul>
+      </div>
+      <figure>
+        <div class="tabs" role="tablist" aria-label="Forecast Runner screens">
+          <button role="tab" aria-selected="true" data-fr="forecast">01 · Forecast &amp; backtest</button>
+          <button role="tab" aria-selected="false" data-fr="report">02 · Defensible buyer report</button>
+          <button role="tab" aria-selected="false" data-fr="landing">03 · 6-step workflow</button>
+        </div>
+        <div class="frame wide">
+          <img id="frImg" src="media/fr_cover.jpg" alt="Forecast Runner step 5 showing actual vs forecast chart and model provenance" loading="lazy">
+        </div>
+        <figcaption>
+          <span class="fig">FIG. 07</span>
+          <span id="frCap"><b>Step 05 · Model basket forecast &amp; backtest.</b> <span class="d">Every projected unit traces to TimesFM, ARIMA+, or an explicit baseline assumption.</span></span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- Venture 03: Tooth Quest -->
+    <div class="venture">
+      <div>
+        <h3>Tooth Quest</h3>
+        <div class="when">2026 · Solo Build · Kids Habit Product</div>
+        <ul>
+          <li><b>The problem:</b> “Brushing is good for you” means nothing to a 3-year-old. Every morning and night turns into a negotiation.</li>
+          <li><b>The insight:</b> Small children don't respond to abstract reasons — they respond to what they can see. Turn her own mouth into a visible kingdom with tiny bugs to brush away, guided by a character who calls her by name.</li>
+          <li><b>Result:</b> In the very first test, a 3-year-old who hated brushing brushed twice in a row, talked about the character at bedtime, and asked for it again the next morning.</li>
+        </ul>
+      </div>
+      <figure>
+        <div class="trio">
+          <div class="trio-item">
+            <div class="screen"><img src="media/tq_1.jpg" alt="Tooth Quest profile picker: Who's brushing?" loading="lazy"></div>
+            <small>01 · “Who's brushing?” profile picker</small>
+          </div>
+          <div class="trio-item">
+            <div class="screen"><img src="media/tq_4.jpg" alt="Tooth Quest Day 4 kingdom progression map" loading="lazy"></div>
+            <small>02 · Day 4 on the Tooth Kingdom map</small>
+          </div>
+          <div class="trio-item">
+            <div class="screen"><img src="media/tq_5.jpg" alt="Tooth Quest companion greeting the child by name" loading="lazy"></div>
+            <small>03 · Companion greets the child by name</small>
+          </div>
+        </div>
+        <figcaption>
+          <span class="fig">FIG. 08</span>
+          <span><b>Tooth Quest mobile flow.</b> <span class="d">Designed around a simple behavioral insight: kids act on stories they can see, not lectures on dental health.</span></span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- Venture 04: EmojiBoard -->
+    <div class="venture">
+      <div>
+        <h3>EmojiBoard</h3>
+        <div class="when">2026 · Solo Build · React Native + BLE Wearable Hardware</div>
+        <ul>
+          <li><b>What it is:</b> A mobile app and custom wireless protocol that pushes animated pixel art from a phone to a wearable LED matrix screen.</li>
+          <li><b>Hardware-software bridge:</b> Converts animation frames on-device into <b>RGB565</b> color buffers, applies <b>run-length encoding (RLE)</b> to shrink frame payloads, and streams packetized chunks over Bluetooth Low Energy.</li>
+        </ul>
+      </div>
+      <figure>
+        <div class="hw-box">
+          <div class="led-matrix">
+            <img src="media/emoji_pack.png" alt="Pixel art emoji rendered for LED matrix" loading="lazy">
+          </div>
+          <ul class="pipe-steps">
+            <li><span>01 · Input</span><div>Animated sprite sheet selected or authored in the React Native app</div></li>
+            <li><span>02 · Color</span><div>Downsampled &amp; quantized to 16-bit <b>RGB565</b> matrix frame buffers</div></li>
+            <li><span>03 · Codec</span><div><b>Run-Length Encoding (RLE)</b> compresses repeated pixel runs per frame</div></li>
+            <li><span>04 · Radio</span><div>Chunked <b>BLE GATT</b> packet stream with frame checksum &amp; retry</div></li>
+          </ul>
+        </div>
+        <figcaption>
+          <span class="fig">FIG. 09</span>
+          <span><b>EmojiBoard matrix preview &amp; BLE pipeline.</b> <span class="d">From React Native canvas to RLE-compressed RGB565 packets over Bluetooth Low Energy.</span></span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="more">
+  <div class="wrap">
+    <div class="head">
+      <div class="num">03 — Archive</div>
+      <h2>More builds
+        <small>Additional prototypes, MVPs, and multi-agent tools built across retail merchandising, warehouse operations, and personal workflows.</small>
+      </h2>
+    </div>
+    <ol class="timeline">
+      <li>
+        <span class="t">Retail AI</span>
+        <span class="w">
+          <b>Beautylish Product-Opportunity Tool</b>
+          <span>Merchandising discovery tool with full BRS/FRS/PRS requirements and interactive HTML prototype.</span>
+        </span>
+        <span class="tag">Prototype</span>
+      </li>
+      <li>
+        <span class="t">Warehouse Ops</span>
+        <span class="w">
+          <b>Inventory Counting</b>
+          <span>Multi-user cycle counting MVP with round-based locking and reconciliation export.</span>
+        </span>
+        <span class="tag">MVP</span>
+      </li>
+      <li>
+        <span class="t">Multi-Agent</span>
+        <span class="w">
+          <b>Multi-Agent Stock Analysis</b>
+          <span>Equity research pipeline splitting technical, fundamental, and sentiment analysis across specialized agents.</span>
+        </span>
+        <span class="tag">Side Project</span>
+      </li>
+      <li>
+        <span class="t">Consumer Web</span>
+        <span class="w">
+          <b>What's for Dinner Tonight</b>
+          <span>Family meal decision web app with weighted scoring logic and automated test suite.</span>
+        </span>
+        <span class="tag">Side Project</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="eyebrow">04 — Contact</div>
+    <p class="big">If you're building or backing robots that work in the real world, let's talk.</p>
+    <div class="links">
+      <a href="Zhen_Wang_Resume.pdf" target="_blank" rel="noopener">Resume (PDF) ↗</a>
+      <a href="https://www.linkedin.com/in/zhen-w-b2706a257" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="mailto:wzovercome@gmail.com" id="email">wzovercome@gmail.com</a>
+      <button id="copyBtn" type="button">Copy email</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Zhen Wang</span>
+    <span>Built from real robot logs and shipped code.</span>
+  </div>
+</footer>
+
+<script>
+  // Theme toggle (supports system preference + manual override)
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeToggle');
+  themeBtn.addEventListener('click', () => {
+    const isDark = root.getAttribute('data-theme') === 'dark' ||
+      (!root.getAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+
+  // Play videos only while visible on screen
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    const v = e.target;
+    if (e.isIntersecting) v.play().catch(() => {}); else v.pause();
+  }), { threshold: 0.25 });
+  document.querySelectorAll('video').forEach(v => io.observe(v));
+
+  const select = (btns, b) => btns.forEach(x => x.setAttribute('aria-selected', x === b));
+
+  // 02 · π0.5 image switcher
+  const piData = {
+    intent: {
+      src: 'media/pi05.jpg',
+      cap: '<b>Multi-bin order picking with π0.5.</b> <span class="d">Five tabletop items mapped to target compartments A, B, and C with overlaid trajectory rollouts.</span>'
+    },
+    bench: {
+      src: 'media/airbot_side.jpg',
+      cap: '<b>Session camera alignment check.</b> <span class="d">Live frame overlaid against training-set median layout to verify workspace geometry before rollout.</span>'
+    }
+  };
+  const piBtns = [...document.querySelectorAll('[data-pi]')];
+  piBtns.forEach(b => b.addEventListener('click', () => {
+    const d = piData[b.dataset.pi];
+    select(piBtns, b);
+    document.getElementById('piImg').src = d.src;
+    document.getElementById('piCap').innerHTML = d.cap;
+  }));
+
+  // 03 · Luna Vision video switcher
+  const lunaData = {
+    single: {
+      src: 'media/luna.mp4',
+      poster: 'media/luna_cover.jpg',
+      cap: '<b>Head-tracked stereo fisheye teleop.</b> <span class="d">Captured inside the PICO headset: local 90 Hz spherical reprojection keeps the world stable as the operator looks around.</span>'
+    },
+    stereo: {
+      src: 'media/luna_stereo.mp4',
+      poster: 'media/luna_stereo_cover.jpg',
+      cap: '<b>Raw dual-eye stereo fisheye feed.</b> <span class="d">Left and right fisheye streams stamped with camera pose and projected onto a 1 m sphere at 90 Hz.</span>'
+    }
+  };
+  const lunaBtns = [...document.querySelectorAll('[data-luna]')];
+  lunaBtns.forEach(b => b.addEventListener('click', () => {
+    const d = lunaData[b.dataset.luna];
+    const v = document.getElementById('lunaVideo');
+    select(lunaBtns, b);
+    v.src = d.src;
+    v.poster = d.poster;
+    v.play().catch(() => {});
+    document.getElementById('lunaCap').innerHTML = d.cap;
+  }));
+
+  // 04 · Window-wipe AR & Vision Small Models switcher
+  const wipeData = {
+    hud: {
+      src: 'media/ar_hud_4state.jpg',
+      cap: '<b>Live PICO AR HUD across four contact states.</b> <span class="d">Pre-contact (62% dirt), normal downward wipe (blue blade line, 17.1 N), fast wipe warning (orange blade line + haptic pulse), and reverse-bend alert (red blade line, 26.7 N) with live wrist-cam ResNet18 vs. F/T torque bar.</span>'
+    },
+    depth: {
+      src: 'media/ar_depth_plane.jpg',
+      cap: '<b>Stereo SGBM disparity &amp; RANSAC glass-plane classification.</b> <span class="d">Left: raw RGB; Center: stereo depth disparity; Right: glass-plane separation isolating &gt;99% on-glass dirt (red), in-front squeegee/frame occluders (blue), and behind-glass objects (magenta).</span>'
+    },
+    progress: {
+      src: 'media/ar_wipe_progress.jpg',
+      cap: '<b>Real-time stain area reduction (64% → 31% → 21% → 0%).</b> <span class="d">ImageNet U-Net + ResNet18 segments dirt and tool at 5.8 ms (0.95 tool IoU), automatically hiding the white AR glow behind the physical squeegee and arm.</span>'
+    },
+    torque: {
+      src: 'media/ar_torque_trace.png',
+      cap: '<b>Wrist-camera ResNet18 blade torque prediction vs. 6-axis F/T teacher.</b> <span class="d">Held-out episodes w0928-077 and w0927-162: vision-predicted bending torque Mx (blue, 0.46 ms TensorRT) tracks the physical 6-axis F/T sensor (grey) at r = 0.959.</span>'
+    }
+  };
+  const wipeBtns = [...document.querySelectorAll('[data-wipe]')];
+  wipeBtns.forEach(b => b.addEventListener('click', () => {
+    const d = wipeData[b.dataset.wipe];
+    select(wipeBtns, b);
+    document.getElementById('wipeImg').src = d.src;
+    document.getElementById('wipeCap').innerHTML = d.cap;
+  }));
+
+  // Forecast Runner screen switcher
+  const frData = {
+    forecast: {
+      src: 'media/fr_cover.jpg',
+      cap: '<b>Step 05 · Model basket forecast &amp; backtest.</b> <span class="d">Every projected unit traces to TimesFM, ARIMA+, or an explicit baseline assumption.</span>'
+    },
+    report: {
+      src: 'media/fr_report_top.jpg',
+      cap: '<b>Step 06 · Defensible buyer report.</b> <span class="d">AI agents write the narrative summary while a deterministic guardrail blocks any unverified numbers.</span>'
+    },
+    landing: {
+      src: 'media/fr_landing.jpg',
+      cap: '<b>Step 01 · Data package &amp; scenario intake.</b> <span class="d">Upload messy sales CSVs; agents map schema columns without touching forecast math.</span>'
+    }
+  };
+  const frBtns = [...document.querySelectorAll('[data-fr]')];
+  frBtns.forEach(b => b.addEventListener('click', () => {
+    const d = frData[b.dataset.fr];
+    select(frBtns, b);
+    document.getElementById('frImg').src = d.src;
+    document.getElementById('frCap').innerHTML = d.cap;
+  }));
+
+  // Copy email button
+  document.getElementById('copyBtn').addEventListener('click', e => {
+    const btn = e.currentTarget;
+    const txt = document.getElementById('email').textContent;
+    const done = () => {
+      btn.textContent = 'Copied ✓';
+      setTimeout(() => { btn.textContent = 'Copy email'; }, 1600);
+    };
+    (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(done).catch(() => {
+      const r = document.createRange();
+      r.selectNodeContents(document.getElementById('email'));
+      const s = getSelection();
+      s.removeAllRanges();
+      s.addRange(r);
+      btn.textContent = 'Press ⌘C';
+    });
+  });
+
+  // Live 15 Hz telemetry synced to Airbot episode video
+  const COLORS = ['#e07a4f', '#6ba3be', '#d99b52', '#7fb069', '#b084cc', '#d46a6a'];
+  const pv = document.getElementById('pv');
+  const cv = document.getElementById('cv');
+  const ctx = cv.getContext('2d');
+  const jointsEl = document.getElementById('joints');
+
+  for (let k = 0; k < 6; k++) {
+    jointsEl.insertAdjacentHTML(
+      'beforeend',
+      `<div class="wb-j"><span><i style="background:${COLORS[k]}"></i>J${k + 1}</span><b id="j${k}">0.0°</b></div>`
+    );
+  }
+
+  let T = null;
+  fetch('media/telemetry.json')
+    .then(r => r.json())
+    .then(d => { T = d; requestAnimationFrame(tick); })
+    .catch(() => {});
+
+  function frameAt(t) {
+    const f = T.frames;
+    let lo = 0, hi = f.length - 1;
+    while (lo < hi) {
+      const m = (lo + hi + 1) >> 1;
+      if (f[m].t <= t) lo = m; else hi = m - 1;
+    }
+    return lo;
+  }
+
+  function draw(i) {
+    const dpr = window.devicePixelRatio || 1;
+    const w = cv.clientWidth;
+    const h = cv.clientHeight;
+    if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)) {
+      cv.width = Math.round(w * dpr);
+      cv.height = Math.round(h * dpr);
+    }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+
+    const f = T.frames;
+    const n = f.length;
+    const x = j => (j / (n - 1)) * w;
+    const y = v => h / 2 - (v / 3.2) * (h / 2 - 6);
+
+    ctx.strokeStyle = '#26231f';
+    ctx.lineWidth = 1;
+    for (let g = 1; g < 4; g++) {
+      ctx.beginPath();
+      ctx.moveTo(0, (g * h) / 4);
+      ctx.lineTo(w, (g * h) / 4);
+      ctx.stroke();
+    }
+
+    for (let k = 0; k < 6; k++) {
+      ctx.strokeStyle = COLORS[k];
+      ctx.lineWidth = 1.4;
+      ctx.globalAlpha = 0.22;
+      ctx.beginPath();
+      f.forEach((p, j) => (j ? ctx.lineTo(x(j), y(p.s[k])) : ctx.moveTo(x(j), y(p.s[k]))));
+      ctx.stroke();
+
+      ctx.globalAlpha = 1;
+      ctx.beginPath();
+      for (let j = 0; j <= i; j++) {
+        j ? ctx.lineTo(x(j), y(f[j].s[k])) : ctx.moveTo(x(j), y(f[j].s[k]));
+      }
+      ctx.stroke();
+
+      ctx.fillStyle = COLORS[k];
+      ctx.beginPath();
+      ctx.arc(x(i), y(f[i].s[k]), 2.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    ctx.strokeStyle = 'rgba(236, 231, 220, 0.35)';
+    ctx.beginPath();
+    ctx.moveTo(x(i), 0);
+    ctx.lineTo(x(i), h);
+    ctx.stroke();
+  }
+
+  function tick() {
+    if (T && pv.duration) {
+      const t = (pv.currentTime / pv.duration) * T.frames[T.frames.length - 1].t;
+      const i = frameAt(t);
+      const p = T.frames[i];
+      draw(i);
+      for (let k = 0; k < 6; k++) {
+        document.getElementById('j' + k).textContent = (p.s[k] * 57.2958).toFixed(1) + '°';
+      }
+      document.getElementById('gv').textContent = p.s[6].toFixed(3);
+      document.getElementById('gbar').style.width = Math.min(100, (p.s[6] / 0.08) * 100) + '%';
+      const eff = document.querySelectorAll('#eff i');
+      let tot = 0;
+      p.e.forEach((e, k) => {
+        tot += Math.abs(e);
+        eff[k].style.height = Math.min(100, (Math.abs(e) / 6.5) * 100) + '%';
+      });
+      document.getElementById('ev').textContent = tot.toFixed(1);
+      document.getElementById('clock').textContent = `t = ${p.t.toFixed(2)} s · 15 Hz`;
+      document.getElementById('scrub').style.width = (pv.currentTime / pv.duration) * 100 + '%';
+    }
+    requestAnimationFrame(tick);
+  }
+</script>
+</body>
+</html>

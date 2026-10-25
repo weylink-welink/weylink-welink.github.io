@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zhen Wang — Resume</title>
+  <style>
+    @page {
+      size: letter;
+      margin: 0.42in 0.54in;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      background: #ffffff;
+      color: #000000;
+      font-family: "Times New Roman", Times, Georgia, serif;
+      font-size: 9.6pt;
+      line-height: 1.28;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      max-width: 7.42in;
+      margin: 0 auto;
+    }
+
+    a {
+      color: #000000;
+      text-decoration: none;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 8pt;
+    }
+
+    .name {
+      font-size: 17.5pt;
+      font-weight: bold;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 2pt;
+    }
+
+    .contact {
+      font-size: 9.4pt;
+      color: #111111;
+    }
+
+    .contact span.sep {
+      margin: 0 6pt;
+    }
+
+    /* Section */
+    .section {
+      margin-top: 7.5pt;
+    }
+
+    .section-title {
+      font-size: 10pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      border-bottom: 0.75pt solid #000000;
+      padding-bottom: 1pt;
+      margin-bottom: 4pt;
+    }
+
+    /* Entries */
+    .entry {
+      margin-bottom: 5pt;
+    }
+
+    .entry:last-child {
+      margin-bottom: 0;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .org {
+      font-weight: bold;
+      font-size: 9.7pt;
+    }
+
+    .loc {
+      font-size: 9.6pt;
+    }
+
+    .role-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-top: 0.5pt;
+      margin-bottom: 1.5pt;
+    }
+
+    .role {
+      font-style: italic;
+      font-size: 9.6pt;
+    }
+
+    .date {
+      font-style: italic;
+      font-size: 9.6pt;
+    }
+
+    .sub-role {
+      margin-top: 2.5pt;
+    }
+
+    ul.bullets {
+      list-style-type: disc;
+      margin-left: 15pt;
+    }
+
+    ul.bullets li {
+      margin-bottom: 1.2pt;
+      font-size: 9.4pt;
+      line-height: 1.26;
+    }
+
+    ul.bullets li:last-child {
+      margin-bottom: 0;
+    }
+
+    .skills-list p {
+      font-size: 9.4pt;
+      line-height: 1.3;
+      margin-bottom: 1.5pt;
+    }
+
+    .skills-list strong {
+      font-weight: bold;
+    }
+
+    /* Web-only download bar */
+    .web-bar {
+      max-width: 7.42in;
+      margin: 14px auto 18px;
+      padding: 8px 12px;
+      background: #f5f5f5;
+      border: 1px solid #dddddd;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .web-bar a {
+      font-weight: 600;
+      text-decoration: underline;
+      margin-left: 12px;
+    }
+
+    @media print {
+      .web-bar {
+        display: none !important;
+      }
+      .page {
+        max-width: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="web-bar">
+    <span>Zhen Wang — One-Page Resume</span>
+    <div>
+      <a href="index.html">← Back to Portfolio</a>
+      <a href="Zhen_Wang_Resume.pdf" download>Download PDF</a>
+    </div>
+  </div>
+
+  <div class="page">
+    <!-- HEADER -->
+    <header class="header">
+      <div class="name">Zhen Wang</div>
+      <div class="contact">
+        San Francisco Bay Area, CA<span class="sep">|</span>206-455-1040<span class="sep">|</span><a href="mailto:wzovercome@gmail.com">wzovercome@gmail.com</a><span class="sep">|</span><a href="https://www.linkedin.com/in/zhen-w-b2706a257">linkedin.com/in/zhen-w-b2706a257</a>
+      </div>
+    </header>
+
+    <!-- EDUCATION -->
+    <section class="section">
+      <div class="section-title">Education</div>
+
+      <div class="entry">
+        <div class="row">
+          <span class="org">University of California, Berkeley</span>
+          <span class="loc">Berkeley, CA</span>
+        </div>
+        <div class="role-row">
+          <span class="role">Master of Business Administration (MBA), Business Administration and Management</span>
+          <span class="date">Jul 2024 – Jun 2026</span>
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="row">
+          <span class="org">Purdue University</span>
+          <span class="loc">West Lafayette, IN</span>
+        </div>
+        <div class="role-row">
+          <span class="role">Bachelor of Science in Information Technology (GPA: 3.8)</span>
+          <span class="date">2019 – 2021</span>
+        </div>
+      </div>
+
+      <div class="entry">
+        <div class="row">
+          <span class="org">University of Washington</span>
+          <span class="loc">Seattle, WA</span>
+        </div>
+        <div class="role-row">
+          <span class="role">B.S. in Computer and Information Systems Security / Information Assurance (GPA: 3.6)</span>
+          <span class="date">Sep 2018 – May 2019</span>
+        </div>
+        <div class="role-row">
+          <span class="role">General Studies (GPA: 3.9)</span>
+          <span class="date">Sep 2013 – May 2014</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section class="section">
+      <div class="section-title">Experience</div>
+
+      <!-- C Robotics -->
+      <div class="entry">
+        <div class="row">
+          <span class="org">C Robotics</span>
+          <span class="loc">San Francisco Bay Area, CA</span>
+        </div>
+        <div class="role-row">
+          <span class="role">Founder</span>
+          <span class="date">Jan 2026 – Present</span>
+        </div>
+        <ul class="bullets">
+          <li>Built a 7-stage closed-loop Physical AI pipeline (Deploy, Teleop &amp; Takeover, Collect, Clean, Calibrate, Train, Re-deploy).</li>
+          <li>Engineered a 15 Hz dual-RealSense 3D ESDF world-state engine (4.8 ms latency, occlusion tracking, and 15 cm safety gate).</li>
+          <li>Trained a &pi;<sub>0.5</sub> picking policy (632 demos, 93% success) and a glass-wiping Diffusion Policy (300 demos) with a Touch haptic stylus.</li>
+          <li>Used compliant takeover to train 50 Hz residual models alongside zero-manual-label edge vision (0.46 ms TRT) and 90 Hz VR HUD.</li>
+        </ul>
+      </div>
+
+      <!-- WeyLink AI -->
+      <div class="entry">
+        <div class="row">
+          <span class="org">WeyLink AI</span>
+          <span class="loc">San Francisco Bay Area, CA</span>
+        </div>
+        <div class="role-row">
+          <span class="role">Co-Founder</span>
+          <span class="date">Jul 2024 – Dec 2025</span>
+        </div>
+        <ul class="bullets">
+          <li>Pivoted from an AI ERP concept to a modular B2B AI integration &amp; workflow platform, reaching ~$250K in 2025 revenue.</li>
+          <li>Built closed-loop backend infrastructure to ingest client data, run AI extraction, and push structured outputs into legacy systems.</li>
+          <li>Parsed unstructured English emails and bilingual freight/customs PDFs into structured tables and automated validation reports.</li>
+          <li>Worked on-site at factories ($200K 7-module operations platform) and logistics offices to write PRDs and deploy automated workflows.</li>
+        </ul>
+      </div>
+
+      <!-- SummerFarm -->
+      <div class="entry">
+        <div class="row">
+          <span class="org">SummerFarm</span>
+          <span class="loc">Hangzhou, Zhejiang, China</span>
+        </div>
+
+        <div class="role-row">
+          <span class="role">Head of Oversea Market</span>
+          <span class="date">May 2024 – Jul 2024</span>
+        </div>
+        <ul class="bullets">
+          <li>Planned and executed overseas market-entry and cross-border supply chain expansion efforts, starting with the U.S. market.</li>
+        </ul>
+
+        <div class="role-row sub-role">
+          <span class="role">Director of Operations</span>
+          <span class="date">Jun 2022 – May 2024</span>
+        </div>
+        <ul class="bullets">
+          <li>Led Northern China expansion, building a logistics and warehouse network for 20,000+ customers ($20M regional revenue).</li>
+          <li>Partnered with the CEO and COO to optimize fulfillment efficiency, reduce operational costs, and align supplier-customer operations.</li>
+        </ul>
+
+        <div class="role-row sub-role">
+          <span class="role">Product Manager</span>
+          <span class="date">Aug 2021 – Jun 2022</span>
+        </div>
+        <ul class="bullets">
+          <li>Jointly proposed and launched the smart procurement and demand management SaaS platform with the CTO for foodservice merchants.</li>
+        </ul>
+      </div>
+
+      <!-- CampusTutor -->
+      <div class="entry">
+        <div class="row">
+          <span class="org">CampusTutor</span>
+          <span class="loc">Seattle, WA</span>
+        </div>
+        <div class="role-row">
+          <span class="role">Co-Founder &amp; Developer</span>
+          <span class="date">Mar 2014 – May 2017</span>
+        </div>
+        <ul class="bullets">
+          <li>Built a campus peer-to-peer tutoring web platform from scratch featuring course-specific search, booking, and Stripe/PayPal payments.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- RESEARCH & SELECTED PROJECTS -->
+    <section class="section">
+      <div class="section-title">Research &amp; Selected Projects</div>
+
+      <div class="entry">
+        <div class="row">
+          <span class="org">Central University of Finance and Economics</span>
+          <span class="loc">Beijing, China (Remote)</span>
+        </div>
+        <div class="role-row">
+          <span class="role">Research Assistant (Part-time)</span>
+          <span class="date">Jun 2023 – Sep 2023</span>
+        </div>
+        <ul class="bullets">
+          <li>Researched big data analytics in food supply chain infrastructure to minimize logistics cost and food waste from farms to consumers.</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="row">
+          <span class="org">Independent Software &amp; Hardware Builds</span>
+          <span class="loc">San Francisco Bay Area, CA</span>
+        </div>
+        <div class="role-row">
+          <span class="role">Creator — Forecast Runner, Tooth Quest, EmojiBoard</span>
+          <span class="date">2025 – 2026</span>
+        </div>
+        <ul class="bullets">
+          <li>Shipped <em>Forecast Runner</em> (TimesFM + ARIMA+ forecasting), <em>Tooth Quest</em> (mobile habit app), and <em>EmojiBoard</em> (BLE LED wearable).</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="section">
+      <div class="section-title">Skills &amp; Additional Information</div>
+      <div class="skills-list">
+        <p><strong>Robotics &amp; AI:</strong> &pi;<sub>0.5</sub> / VLA Post-Training, LeRobot, 250 Hz Compliant Control, PyTorch, TensorRT, Stereo Vision, OpenXR, LLM Agents</p>
+        <p><strong>Product &amp; Operations:</strong> B2B SaaS, ERP / BOM / MES Architecture, Logistics &amp; Cold-Chain Operations, Demand Forecasting</p>
+        <p><strong>Technical &amp; Languages:</strong> Python, TypeScript, React / React Native, SQL, Stripe, QuickBooks &nbsp;|&nbsp; English (Fluent), Mandarin (Native)</p>
+      </div>
+    </section>
+  </div>
+
+</body>
+</html>
